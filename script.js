@@ -221,7 +221,7 @@ canvas.addEventListener('touchstart', (e) => {
         animatingIndex = index;
         animatingTile = draggedTile;
     }
-});
+}, {passive: false});
 
 canvas.addEventListener('touchmove', (e) => {
     e.preventDefault();
@@ -232,7 +232,7 @@ canvas.addEventListener('touchmove', (e) => {
         animatingY = pos.y - rect.top - dragOffsetY;
         drawPuzzle();
     }
-});
+}, {passive: false});
 
 canvas.addEventListener('touchend', (e) => {
     e.preventDefault();
@@ -262,7 +262,7 @@ canvas.addEventListener('touchend', (e) => {
         animating = true;
         animate();
     }
-});
+}, {passive: false});
 
 function isSolved() {
     for (let i = 0; i < totalTiles - 1; i++) {
