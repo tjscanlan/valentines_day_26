@@ -1,5 +1,6 @@
 const canvas = document.getElementById('puzzle-canvas');
 const ctx = canvas.getContext('2d');
+const hintButton = document.getElementById('hint-button');
 const tileSize = 100;
 const gridSize = 4;
 const totalTiles = gridSize * gridSize;
@@ -137,6 +138,8 @@ function animate() {
         animatingTile = null;
         animatingIndex = -1;
         movingToEmpty = false;
+        hintButton.disabled = false;
+        hintButton.textContent = "Get Hint";
         drawPuzzle();
         return;
     }
@@ -271,4 +274,29 @@ function isSolved() {
     return tiles[totalTiles - 1] === null;
 }
 
+function hint() {
+    if (animating) return;
+    // Find the tile that belongs in the empty position
+    const correctTile = emptyIndex;
+    const tileIndex = tiles.indexOf(correctTile);
+    if (tileIndex !== -1 && tileIndex !== emptyIndex) {
+        // Move this tile to the empty position
+        hintButton.disabled = true;
+        hintButton.textContent = "Moving...";
+        animatingIndex = tileIndex;
+        animatingTile = tiles[tileIndex];
+        const emptyRow = Math.floor(emptyIndex / gridSize);
+        const emptyCol = emptyIndex % gridSize;
+        animatingX = emptyCol * tileSize;
+        animatingY = emptyRow * tileSize;
+        targetX = emptyCol * tileSize;
+        targetY = emptyRow * tileSize;
+        movingToEmpty = true;
+        animating = true;
+        animate();
+    }
+}
+
 drawPuzzle();
+
+document.getElementById('hint-button').addEventListener('click', hint);

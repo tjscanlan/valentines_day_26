@@ -22,3 +22,24 @@ canvas {
     border: 2px solid #000;
     cursor: pointer;
 }
+
+#hint-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#hint-button:hover {
+    background-color: #ff1493;
+}
+
+#hint-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
