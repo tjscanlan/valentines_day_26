@@ -154,7 +154,7 @@ canvas.addEventListener('mousedown', (e) => {
     const x = Math.floor((pos.x - rect.left) / tileSize);
     const y = Math.floor((pos.y - rect.top) / tileSize);
     const index = getIndex(x, y);
-    if (isAdjacent(index, emptyIndex)) {
+    if (tiles[index] !== null) {  // any tile except empty
         dragging = true;
         draggedIndex = index;
         draggedTile = tiles[index];
@@ -212,7 +212,7 @@ canvas.addEventListener('touchstart', (e) => {
     const x = Math.floor((pos.x - rect.left) / tileSize);
     const y = Math.floor((pos.y - rect.top) / tileSize);
     const index = getIndex(x, y);
-    if (isAdjacent(index, emptyIndex)) {
+    if (tiles[index] !== null) {  // any tile except empty
         dragging = true;
         draggedIndex = index;
         draggedTile = tiles[index];
