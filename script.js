@@ -65,6 +65,12 @@ hiddenCtx.textAlign = 'center';
 hiddenCtx.fillText('Will you be my', 200, 180);
 hiddenCtx.fillText('eme valentine?', 200, 200);
 
+// Add white stroke for bubble effect
+hiddenCtx.strokeStyle = 'white';
+hiddenCtx.lineWidth = 2;
+hiddenCtx.strokeText('Will you be my', 200, 180);
+hiddenCtx.strokeText('eme valentine?', 200, 200);
+
 function drawPuzzle() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < totalTiles; i++) {
