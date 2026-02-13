@@ -20,6 +20,7 @@ let draggedIndex = -1;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 let movingToEmpty = false;
+let hinting = false;
 
 function getEventPos(e) {
     if (e.touches && e.touches.length > 0) {
@@ -79,14 +80,14 @@ function drawPuzzle() {
         const tileRow = Math.floor(animatingTile / gridSize);
         const tileCol = animatingTile % gridSize;
         ctx.save();
-        if (dragging) {
+        if (dragging || hinting) {
             ctx.shadowColor = 'rgba(0,0,0,0.5)';
             ctx.shadowBlur = 5;
             ctx.shadowOffsetX = 2;
             ctx.shadowOffsetY = 2;
         }
         ctx.drawImage(hiddenCanvas, tileCol * tileSize, tileRow * tileSize, tileSize, tileSize, animatingX, animatingY, tileSize, tileSize);
-        if (dragging) {
+        if (dragging || hinting) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 3;
             ctx.strokeRect(animatingX, animatingY, tileSize, tileSize);
@@ -138,6 +139,7 @@ function animate() {
         animatingTile = null;
         animatingIndex = -1;
         movingToEmpty = false;
+        hinting = false;
         hintButton.disabled = false;
         hintButton.textContent = "Get Hint";
         drawPuzzle();
@@ -283,6 +285,7 @@ function hint() {
         // Move this tile to the empty position
         hintButton.disabled = true;
         hintButton.textContent = "Moving...";
+        hinting = true;
         animatingIndex = tileIndex;
         animatingTile = tiles[tileIndex];
         const emptyRow = Math.floor(emptyIndex / gridSize);

@@ -18,7 +18,7 @@ The goal is to arrange the scrambled tiles to form a complete pink heart with th
   - If dropped elsewhere, it snaps back to its original position.
 - Repeat until all tiles are correctly arranged.
 
-**Hint Button:** Click the "Get Hint" button at the bottom to automatically move the correct tile into the empty spot. The button will show "Moving..." and be disabled during the animation.
+**Hint Button:** Click the "Get Hint" button at the bottom to automatically move the correct tile into the empty spot. The button will show "Moving..." and be disabled during the animation, and the moving tile will be highlighted with a red border and shadow.
 
 ### Mobile Browser
 - Tap and hold on any tile (a red border will appear around the selected tile).
@@ -28,7 +28,7 @@ The goal is to arrange the scrambled tiles to form a complete pink heart with th
   - If not, it returns to its original position.
 - Complete the puzzle as above.
 
-**Hint Button:** Tap the "Get Hint" button at the bottom to automatically move the correct tile into the empty spot. The button will show "Moving..." and be disabled during the animation.
+**Hint Button:** Tap the "Get Hint" button at the bottom to automatically move the correct tile into the empty spot. The button will show "Moving..." and be disabled during the animation, and the moving tile will be highlighted with a red border and shadow.
 
 **Note**: Any tile can be selected and moved. The grid lines help guide your movements, and the red border indicates the currently selected/dragged tile.
 
