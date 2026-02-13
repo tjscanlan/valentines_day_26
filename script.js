@@ -13,6 +13,22 @@ let animatingX = 0;
 let animatingY = 0;
 let targetX = 0;
 let targetY = 0;
+let dragging = false;
+let draggedTile = null;
+let draggedIndex = -1;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let movingToEmpty = false;
+
+function getEventPos(e) {
+    if (e.touches && e.touches.length > 0) {
+        return {x: e.touches[0].clientX, y: e.touches[0].clientY};
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+        return {x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY};
+    } else {
+        return {x: e.clientX, y: e.clientY};
+    }
+}
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -96,16 +112,19 @@ function animate() {
     const dist = Math.sqrt(dx * dx + dy * dy);
     if (dist < 5) {
         // done
-        tiles[emptyIndex] = animatingTile;
-        tiles[animatingIndex] = null;
-        emptyIndex = animatingIndex;
+        if (movingToEmpty) {
+            tiles[emptyIndex] = animatingTile;
+            tiles[animatingIndex] = null;
+            emptyIndex = animatingIndex;
+            if (isSolved()) {
+                alert('Congratulations! You solved the puzzle!');
+            }
+        }
         animating = false;
         animatingTile = null;
         animatingIndex = -1;
+        movingToEmpty = false;
         drawPuzzle();
-        if (isSolved()) {
-            alert('Congratulations! You solved the puzzle!');
-        }
         return;
     }
     const speed = 10;
@@ -115,24 +134,119 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-canvas.addEventListener('click', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / tileSize);
-    const y = Math.floor((e.clientY - rect.top) / tileSize);
-    const clickedIndex = getIndex(x, y);
+canvas.addEventListener('mousedown', (e) => {
     if (animating) return;
-    if (isAdjacent(clickedIndex, emptyIndex)) {
-        animating = true;
-        animatingIndex = clickedIndex;
-        animatingTile = tiles[clickedIndex];
-        const row = Math.floor(clickedIndex / gridSize);
-        const col = clickedIndex % gridSize;
-        animatingX = col * tileSize;
-        animatingY = row * tileSize;
+    const rect = canvas.getBoundingClientRect();
+    const pos = getEventPos(e);
+    const x = Math.floor((pos.x - rect.left) / tileSize);
+    const y = Math.floor((pos.y - rect.top) / tileSize);
+    const index = getIndex(x, y);
+    if (isAdjacent(index, emptyIndex)) {
+        dragging = true;
+        draggedIndex = index;
+        draggedTile = tiles[index];
+        dragOffsetX = (pos.x - rect.left) % tileSize;
+        dragOffsetY = (pos.y - rect.top) % tileSize;
+        animatingIndex = index;
+        animatingTile = draggedTile;
+    }
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (dragging) {
+        const rect = canvas.getBoundingClientRect();
+        const pos = getEventPos(e);
+        animatingX = pos.x - rect.left - dragOffsetX;
+        animatingY = pos.y - rect.top - dragOffsetY;
+        drawPuzzle();
+    }
+});
+
+canvas.addEventListener('mouseup', (e) => {
+    if (dragging) {
+        dragging = false;
+        const rect = canvas.getBoundingClientRect();
         const emptyRow = Math.floor(emptyIndex / gridSize);
         const emptyCol = emptyIndex % gridSize;
-        targetX = emptyCol * tileSize;
-        targetY = emptyRow * tileSize;
+        const emptyCenterX = emptyCol * tileSize + tileSize / 2;
+        const emptyCenterY = emptyRow * tileSize + tileSize / 2;
+        const tileCenterX = animatingX + tileSize / 2;
+        const tileCenterY = animatingY + tileSize / 2;
+        const dist = Math.sqrt((tileCenterX - emptyCenterX) ** 2 + (tileCenterY - emptyCenterY) ** 2);
+        if (dist < tileSize / 2) {
+            // move to empty
+            targetX = emptyCol * tileSize;
+            targetY = emptyRow * tileSize;
+            movingToEmpty = true;
+        } else {
+            // back to original
+            const row = Math.floor(draggedIndex / gridSize);
+            const col = draggedIndex % gridSize;
+            targetX = col * tileSize;
+            targetY = row * tileSize;
+            movingToEmpty = false;
+        }
+        animating = true;
+        animate();
+    }
+});
+
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (animating) return;
+    const rect = canvas.getBoundingClientRect();
+    const pos = getEventPos(e);
+    const x = Math.floor((pos.x - rect.left) / tileSize);
+    const y = Math.floor((pos.y - rect.top) / tileSize);
+    const index = getIndex(x, y);
+    if (isAdjacent(index, emptyIndex)) {
+        dragging = true;
+        draggedIndex = index;
+        draggedTile = tiles[index];
+        dragOffsetX = (pos.x - rect.left) % tileSize;
+        dragOffsetY = (pos.y - rect.top) % tileSize;
+        animatingIndex = index;
+        animatingTile = draggedTile;
+    }
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (dragging) {
+        const rect = canvas.getBoundingClientRect();
+        const pos = getEventPos(e);
+        animatingX = pos.x - rect.left - dragOffsetX;
+        animatingY = pos.y - rect.top - dragOffsetY;
+        drawPuzzle();
+    }
+});
+
+canvas.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    if (dragging) {
+        dragging = false;
+        const rect = canvas.getBoundingClientRect();
+        const emptyRow = Math.floor(emptyIndex / gridSize);
+        const emptyCol = emptyIndex % gridSize;
+        const emptyCenterX = emptyCol * tileSize + tileSize / 2;
+        const emptyCenterY = emptyRow * tileSize + tileSize / 2;
+        const tileCenterX = animatingX + tileSize / 2;
+        const tileCenterY = animatingY + tileSize / 2;
+        const dist = Math.sqrt((tileCenterX - emptyCenterX) ** 2 + (tileCenterY - emptyCenterY) ** 2);
+        if (dist < tileSize / 2) {
+            // move to empty
+            targetX = emptyCol * tileSize;
+            targetY = emptyRow * tileSize;
+            movingToEmpty = true;
+        } else {
+            // back to original
+            const row = Math.floor(draggedIndex / gridSize);
+            const col = draggedIndex % gridSize;
+            targetX = col * tileSize;
+            targetY = row * tileSize;
+            movingToEmpty = false;
+        }
+        animating = true;
         animate();
     }
 });
