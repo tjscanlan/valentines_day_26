@@ -78,6 +78,11 @@ function drawPuzzle() {
         const tileRow = Math.floor(animatingTile / gridSize);
         const tileCol = animatingTile % gridSize;
         ctx.drawImage(hiddenCanvas, tileCol * tileSize, tileRow * tileSize, tileSize, tileSize, animatingX, animatingY, tileSize, tileSize);
+        if (dragging) {
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(animatingX, animatingY, tileSize, tileSize);
+        }
     }
     // Draw grid lines
     ctx.strokeStyle = '#000';
