@@ -77,12 +77,20 @@ function drawPuzzle() {
     if (animating) {
         const tileRow = Math.floor(animatingTile / gridSize);
         const tileCol = animatingTile % gridSize;
+        ctx.save();
+        if (dragging) {
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 5;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+        }
         ctx.drawImage(hiddenCanvas, tileCol * tileSize, tileRow * tileSize, tileSize, tileSize, animatingX, animatingY, tileSize, tileSize);
         if (dragging) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 3;
             ctx.strokeRect(animatingX, animatingY, tileSize, tileSize);
         }
+        ctx.restore();
     }
     // Draw grid lines
     ctx.strokeStyle = '#000';
@@ -132,9 +140,9 @@ function animate() {
         drawPuzzle();
         return;
     }
-    const speed = 10;
-    animatingX += (dx / dist) * speed;
-    animatingY += (dy / dist) * speed;
+    const factor = 0.25;
+    animatingX += dx * factor;
+    animatingY += dy * factor;
     drawPuzzle();
     requestAnimationFrame(animate);
 }
