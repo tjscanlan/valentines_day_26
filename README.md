@@ -4,9 +4,25 @@ A static web app featuring an interactive sliding puzzle that forms a pink heart
 
 ## How to Play
 
-- Click on a tile adjacent to the empty space to slide it.
-- Arrange the tiles to form the complete heart image.
-- When solved, a congratulatory message will appear.
+The goal is to arrange the scrambled tiles to form a complete pink heart with the message "Will you be my eme valentine?" When solved, a congratulatory message appears.
+
+### Desktop/Web Browser
+- Click and hold on a tile adjacent to the empty space.
+- Drag the tile toward the empty spot.
+- Release the mouse button:
+  - If dropped near the empty area, the tile slides smoothly into place.
+  - If dropped elsewhere, it snaps back to its original position.
+- Repeat until all tiles are correctly arranged.
+
+### Mobile Browser
+- Tap and hold on a tile adjacent to the empty space.
+- Drag your finger to move the tile toward the empty spot.
+- Lift your finger:
+  - If released near the empty area, the tile slides into place.
+  - If not, it returns to its original position.
+- Complete the puzzle as above.
+
+**Note**: Only tiles adjacent to the empty space can be moved. The grid lines help guide your movements.
 
 ## Hosting on GitHub Pages
 
