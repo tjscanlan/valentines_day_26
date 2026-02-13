@@ -48,28 +48,40 @@ hiddenCanvas.width = canvas.width;
 hiddenCanvas.height = canvas.height;
 const hiddenCtx = hiddenCanvas.getContext('2d');
 
-// Draw the pink heart (centered in the canvas)
+// Draw the pink heart (centered in the 4 center tiles: 100-300 x,y)
 hiddenCtx.fillStyle = 'pink';
+// Left heart lobe
 hiddenCtx.beginPath();
-hiddenCtx.moveTo(200, 100);
-hiddenCtx.bezierCurveTo(200, 50, 150, 0, 100, 50);
-hiddenCtx.bezierCurveTo(50, 0, 0, 50, 0, 100);
-hiddenCtx.bezierCurveTo(0, 150, 50, 200, 100, 200);
-hiddenCtx.bezierCurveTo(150, 200, 200, 150, 200, 100);
+hiddenCtx.moveTo(200, 120);
+hiddenCtx.bezierCurveTo(200, 100, 170, 80, 150, 100);
+hiddenCtx.bezierCurveTo(120, 80, 100, 100, 100, 120);
+hiddenCtx.bezierCurveTo(100, 150, 130, 180, 150, 190);
+hiddenCtx.bezierCurveTo(170, 180, 200, 150, 200, 120);
 hiddenCtx.fill();
 
-// Draw the text in red bubble letters (centered)
+// Right heart lobe
+hiddenCtx.beginPath();
+hiddenCtx.moveTo(200, 120);
+hiddenCtx.bezierCurveTo(200, 100, 230, 80, 250, 100);
+hiddenCtx.bezierCurveTo(280, 80, 300, 100, 300, 120);
+hiddenCtx.bezierCurveTo(300, 150, 270, 180, 250, 190);
+hiddenCtx.bezierCurveTo(230, 180, 200, 150, 200, 120);
+hiddenCtx.fill();
+
+// Draw the text in red bubble letters (centered in middle tiles)
 hiddenCtx.fillStyle = 'red';
-hiddenCtx.font = 'bold 18px Arial';
+hiddenCtx.font = 'bold 14px Arial';
 hiddenCtx.textAlign = 'center';
-hiddenCtx.fillText('Will you be my', 200, 130);
-hiddenCtx.fillText('eme valentine?', 200, 150);
+hiddenCtx.fillText('Will you be', 200, 210);
+hiddenCtx.fillText('my eme', 200, 227);
+hiddenCtx.fillText('valentine?', 200, 244);
 
 // Add white stroke for bubble effect
 hiddenCtx.strokeStyle = 'white';
-hiddenCtx.lineWidth = 2;
-hiddenCtx.strokeText('Will you be my', 200, 130);
-hiddenCtx.strokeText('eme valentine?', 200, 150);
+hiddenCtx.lineWidth = 1.5;
+hiddenCtx.strokeText('Will you be', 200, 210);
+hiddenCtx.strokeText('my eme', 200, 227);
+hiddenCtx.strokeText('valentine?', 200, 244);
 
 function drawPuzzle() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -151,7 +163,7 @@ function animate() {
         drawPuzzle();
         return;
     }
-    const factor = 0.25;
+    const factor = 1.0;
     animatingX += dx * factor;
     animatingY += dy * factor;
     drawPuzzle();
