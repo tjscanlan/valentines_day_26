@@ -48,40 +48,37 @@ hiddenCanvas.width = canvas.width;
 hiddenCanvas.height = canvas.height;
 const hiddenCtx = hiddenCanvas.getContext('2d');
 
-// Draw the pink heart (centered in the 4 center tiles: 100-300 x,y)
+// Draw the pink heart (single unified shape in center 4 tiles: 100-300 x,y)
 hiddenCtx.fillStyle = 'pink';
-// Left heart lobe
 hiddenCtx.beginPath();
-hiddenCtx.moveTo(200, 120);
-hiddenCtx.bezierCurveTo(200, 100, 170, 80, 150, 100);
-hiddenCtx.bezierCurveTo(120, 80, 100, 100, 100, 120);
-hiddenCtx.bezierCurveTo(100, 150, 130, 180, 150, 190);
-hiddenCtx.bezierCurveTo(170, 180, 200, 150, 200, 120);
+// Start at bottom point
+hiddenCtx.moveTo(200, 280);
+// Left side going up
+hiddenCtx.bezierCurveTo(160, 260, 100, 220, 100, 160);
+// Left lobe
+hiddenCtx.bezierCurveTo(100, 130, 120, 110, 145, 110);
+hiddenCtx.bezierCurveTo(170, 110, 185, 130, 200, 145);
+// Right lobe
+hiddenCtx.bezierCurveTo(215, 130, 230, 110, 255, 110);
+hiddenCtx.bezierCurveTo(280, 110, 300, 130, 300, 160);
+// Right side going down
+hiddenCtx.bezierCurveTo(300, 220, 240, 260, 200, 280);
 hiddenCtx.fill();
 
-// Right heart lobe
-hiddenCtx.beginPath();
-hiddenCtx.moveTo(200, 120);
-hiddenCtx.bezierCurveTo(200, 100, 230, 80, 250, 100);
-hiddenCtx.bezierCurveTo(280, 80, 300, 100, 300, 120);
-hiddenCtx.bezierCurveTo(300, 150, 270, 180, 250, 190);
-hiddenCtx.bezierCurveTo(230, 180, 200, 150, 200, 120);
-hiddenCtx.fill();
-
-// Draw the text in red bubble letters (centered in middle tiles)
+// Draw the text in red bubble letters (centered inside the heart)
 hiddenCtx.fillStyle = 'red';
-hiddenCtx.font = 'bold 14px Arial';
+hiddenCtx.font = 'bold 13px Arial';
 hiddenCtx.textAlign = 'center';
-hiddenCtx.fillText('Will you be', 200, 210);
-hiddenCtx.fillText('my eme', 200, 227);
-hiddenCtx.fillText('valentine?', 200, 244);
+hiddenCtx.fillText('Will you be', 200, 200);
+hiddenCtx.fillText('my eme', 200, 217);
+hiddenCtx.fillText('valentine?', 200, 234);
 
 // Add white stroke for bubble effect
 hiddenCtx.strokeStyle = 'white';
 hiddenCtx.lineWidth = 1.5;
-hiddenCtx.strokeText('Will you be', 200, 210);
-hiddenCtx.strokeText('my eme', 200, 227);
-hiddenCtx.strokeText('valentine?', 200, 244);
+hiddenCtx.strokeText('Will you be', 200, 200);
+hiddenCtx.strokeText('my eme', 200, 217);
+hiddenCtx.strokeText('valentine?', 200, 234);
 
 function drawPuzzle() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
