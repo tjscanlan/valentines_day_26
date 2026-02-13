@@ -48,28 +48,28 @@ hiddenCanvas.width = canvas.width;
 hiddenCanvas.height = canvas.height;
 const hiddenCtx = hiddenCanvas.getContext('2d');
 
-// Draw the pink heart
+// Draw the pink heart (centered in the canvas)
 hiddenCtx.fillStyle = 'pink';
 hiddenCtx.beginPath();
-hiddenCtx.moveTo(200, 150);
-hiddenCtx.bezierCurveTo(200, 100, 150, 50, 100, 100);
-hiddenCtx.bezierCurveTo(50, 50, 0, 100, 0, 150);
-hiddenCtx.bezierCurveTo(0, 200, 50, 250, 100, 250);
-hiddenCtx.bezierCurveTo(150, 250, 200, 200, 200, 150);
+hiddenCtx.moveTo(200, 100);
+hiddenCtx.bezierCurveTo(200, 50, 150, 0, 100, 50);
+hiddenCtx.bezierCurveTo(50, 0, 0, 50, 0, 100);
+hiddenCtx.bezierCurveTo(0, 150, 50, 200, 100, 200);
+hiddenCtx.bezierCurveTo(150, 200, 200, 150, 200, 100);
 hiddenCtx.fill();
 
-// Draw the text in red bubble letters
+// Draw the text in red bubble letters (centered)
 hiddenCtx.fillStyle = 'red';
-hiddenCtx.font = 'bold 20px Arial';
+hiddenCtx.font = 'bold 18px Arial';
 hiddenCtx.textAlign = 'center';
-hiddenCtx.fillText('Will you be my', 200, 180);
-hiddenCtx.fillText('eme valentine?', 200, 200);
+hiddenCtx.fillText('Will you be my', 200, 130);
+hiddenCtx.fillText('eme valentine?', 200, 150);
 
 // Add white stroke for bubble effect
 hiddenCtx.strokeStyle = 'white';
 hiddenCtx.lineWidth = 2;
-hiddenCtx.strokeText('Will you be my', 200, 180);
-hiddenCtx.strokeText('eme valentine?', 200, 200);
+hiddenCtx.strokeText('Will you be my', 200, 130);
+hiddenCtx.strokeText('eme valentine?', 200, 150);
 
 function drawPuzzle() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
