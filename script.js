@@ -206,7 +206,7 @@ canvas.addEventListener('mouseup', (e) => {
         const tileCenterX = animatingX + tileSize / 2;
         const tileCenterY = animatingY + tileSize / 2;
         const dist = Math.sqrt((tileCenterX - emptyCenterX) ** 2 + (tileCenterY - emptyCenterY) ** 2);
-        if (dist < tileSize / 2) {
+        if (dist < tileSize / 2 && isAdjacent(draggedIndex, emptyIndex)) {
             // move to empty
             targetX = emptyCol * tileSize;
             targetY = emptyRow * tileSize;
@@ -266,7 +266,7 @@ canvas.addEventListener('touchend', (e) => {
         const tileCenterX = animatingX + tileSize / 2;
         const tileCenterY = animatingY + tileSize / 2;
         const dist = Math.sqrt((tileCenterX - emptyCenterX) ** 2 + (tileCenterY - emptyCenterY) ** 2);
-        if (dist < tileSize / 2) {
+        if (dist < tileSize / 2 && isAdjacent(draggedIndex, emptyIndex)) {
             // move to empty
             targetX = emptyCol * tileSize;
             targetY = emptyRow * tileSize;
