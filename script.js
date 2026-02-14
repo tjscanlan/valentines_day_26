@@ -66,7 +66,7 @@ hiddenCtx.bezierCurveTo(300, 220, 240, 260, 200, 280);
 hiddenCtx.fill();
 
 // Draw the text in red bubble letters (centered inside the heart)
-hiddenCtx.fillStyle = 'red';
+hiddenCtx.fillStyle = '#8B0000'; // Darker red for better visibility
 hiddenCtx.font = 'bold 13px Arial';
 hiddenCtx.textAlign = 'center';
 hiddenCtx.fillText('Will you be', 200, 200);
@@ -160,7 +160,7 @@ function animate() {
         drawPuzzle();
         return;
     }
-    const factor = 1.0;
+    const factor = 0.2; // Smoother animation
     animatingX += dx * factor;
     animatingY += dy * factor;
     drawPuzzle();
