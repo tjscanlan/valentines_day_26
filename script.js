@@ -23,7 +23,7 @@ const App = {
       return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
     }
 
-    const svgUrl = buildSvg(containerSize.value);
+    let svgUrl = buildSvg(containerSize.value);
 
     function makeTiles() {
       const arr = Array.from({ length: totalTiles - 1 }, (_, i) => i);
@@ -40,10 +40,39 @@ const App = {
 
     function reset() {
       const arr = makeTiles();
-      shuffleArray(arr);
-      // ensure solvable: simple approach - if solved or empty at wrong place, shuffle again
-      tiles.value = arr;
+      // Shuffle until we get a solvable permutation for the sliding puzzle
+      let attempts = 0;
+      do {
+        shuffleArray(arr);
+        attempts++;
+      } while (!isSolvable(arr) && attempts < 10000);
+      tiles.value = arr.slice();
       emptyIndex.value = tiles.value.indexOf(null);
+    }
+
+    function countInversions(flat) {
+      const nums = flat.filter(n => n !== null);
+      let inv = 0;
+      for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+          if (nums[i] > nums[j]) inv++;
+        }
+      }
+      return inv;
+    }
+
+    function isSolvable(arr) {
+      // Classic 15-puzzle rules generalized for gridSize
+      const inv = countInversions(arr);
+      const emptyPos = arr.indexOf(null);
+      const rowFromBottom = gridSize - Math.floor(emptyPos / gridSize);
+      if (gridSize % 2 === 1) {
+        // odd grid: inversions must be even
+        return inv % 2 === 0;
+      } else {
+        // even grid: solvable when (inversions + rowFromBottom) is odd
+        return (inv + rowFromBottom) % 2 === 1;
+      }
     }
 
     function indexToXY(index) {
@@ -91,17 +120,30 @@ const App = {
         height: `${tileSize.value}px`,
         transform: `translate(${x * tileSize.value}px, ${y * tileSize.value}px)`,
         transition: 'transform 200ms ease',
-        backgroundImage: `url(${svgUrl})`,
-        backgroundSize: `${containerSize.value}px ${containerSize.value}px`,
+        backgroundColor: 'transparent',
       };
       if (tileValue !== null) {
         const tileCol = tileValue % gridSize;
         const tileRow = Math.floor(tileValue / gridSize);
-        style.backgroundPosition = `-${tileCol * tileSize.value}px -${tileRow * tileSize.value}px`;
+        // image will be rendered as an <img> inside the tile; keep tile transparent
       } else {
         style.backgroundColor = 'transparent';
       }
       return style;
+    }
+
+    function getImgStyle(tileValue) {
+      const tileCol = tileValue % gridSize;
+      const tileRow = Math.floor(tileValue / gridSize);
+      return {
+        position: 'absolute',
+        left: `-${tileCol * tileSize.value}px`,
+        top: `-${tileRow * tileSize.value}px`,
+        width: `${containerSize.value}px`,
+        height: `${containerSize.value}px`,
+        userSelect: 'none',
+        pointerEvents: 'none'
+      };
     }
 
     function hint() {
@@ -121,6 +163,8 @@ const App = {
     function onResize() {
       containerSize.value = Math.min(420, Math.floor(window.innerWidth * 0.92));
       tileSize.value = Math.floor(containerSize.value / gridSize);
+      // rebuild svg at the new output size so scaling is crisp
+      svgUrl = buildSvg(containerSize.value);
     }
 
     onMounted(() => {
@@ -133,7 +177,9 @@ const App = {
       tiles,
       tileSize,
       containerSize,
+      svgUrl,
       getTileStyle,
+      getImgStyle,
       moveTile,
       hint,
       reset,
@@ -149,6 +195,7 @@ const App = {
       <div class="puzzle-wrap" :style="{ width: containerSize + 'px', height: containerSize + 'px' }">
         <div class="puzzle">
           <div v-for="(tile, idx) in tiles" :key="idx" class="tile" :style="getTileStyle(idx, tile)" @click="moveTile(idx)" role="button" :aria-label="tile===null ? 'empty' : 'tile ' + tile">
+            <img v-if="tile !== null" :src="svgUrl" :style="getImgStyle(tile)" draggable="false" alt="" />
             <span class="visually-hidden">{{ tile === null ? 'empty' : 'tile ' + tile }}</span>
           </div>
         </div>
