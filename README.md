@@ -1,3 +1,34 @@
+# Valentine's Sliding Puzzle (Web)
+
+A small, responsive sliding puzzle that reveals a heart and message when solved. Rewritten to use a lightweight Vue 3 single-file approach (CDN module) for smooth UI and crisp text rendering across Chromium and Safari on desktop and mobile.
+
+**Features**
+- Smooth, hardware-accelerated tile movement using CSS transforms.
+- Crisp, accessible text rendered with an inline SVG source so letters stay distinct on all devices.
+- Responsive layout: scales to small screens and works on desktop/mobile browsers (Chrome, Edge, Safari).
+- Shuffle, Hint, and basic accessibility labels for assistive tech.
+
+**Files**
+- [index.html](index.html) — app root, mounts the Vue app.
+- [script.js](script.js) — Vue 3 module that implements the puzzle UI and logic.
+- [styles.css](styles.css) — responsive and accessible styling.
+
+**Run locally**
+1. Open a terminal in the project folder.
+2. Start a simple HTTP server (Python 3):
+
+```bash
+python3 -m http.server 8000
+```
+
+3. Open http://localhost:8000 in Chrome or Safari (or use device emulation / a mobile device on the same network).
+
+**Notes & Next steps**
+- The shuffle currently randomizes tiles; a future improvement is to guarantee solvability for all shuffles.
+- I can add keyboard controls (arrow keys) and additional accessibility improvements if you want.
+
+**License / Attribution**
+This project is a personal demo. Feel free to reuse or adapt the code.
 # Valentine's Sliding Puzzle
 
 A static web app featuring an interactive sliding puzzle that forms a pink heart with the message "Will you be my eme valentine?" in red bubble letters. The background is cream-colored.

@@ -1,45 +1,85 @@
-body {
-    background-color: #f5f5dc; /* cream */
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+:root{
+    --bg: #f5f5dc;
+    --card: #ffffff;
+    --accent: #ff2d7a;
+    --accent-strong: #ff0066;
+    --text: #1f1f1f;
 }
 
-h1 {
-    color: #333;
-    margin-bottom: 20px;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    color:var(--text);
 }
 
-#puzzle-container {
-    position: relative;
+.app-root{
+    text-align:center;
+    padding:20px;
 }
 
-canvas {
-    border: 2px solid #000;
-    cursor: pointer;
+.title{
+    font-size:20px;
+    margin:0 0 12px 0;
+    letter-spacing:0.2px;
 }
 
-#hint-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #ff69b4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.controls{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:12px;
 }
 
-#hint-button:hover {
-    background-color: #ff1493;
+.btn{
+    padding:8px 14px;
+    border-radius:8px;
+    border:1px solid rgba(0,0,0,0.08);
+    background:var(--card);
+    font-weight:600;
+    cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-strong)); color:#fff}
+
+.puzzle-wrap{
+    margin-inline:auto;
+    touch-action:none;
 }
 
-#hint-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.puzzle{
+    position:relative;
+    margin:0 auto;
+    background:transparent;
+    width:100%;
+    height:100%;
+}
+
+.tile{
+    position:absolute;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    border-radius:6px;
+    overflow:hidden;
+    background-repeat:no-repeat;
+    background-color:#fff0;
+    -webkit-user-select:none; user-select:none;
+    cursor:pointer;
+    outline:1px solid rgba(0,0,0,0.06);
+}
+
+.tile:hover{ transform: translateY(-4px); transition: transform 180ms ease }
+
+.visually-hidden{ position:absolute !important; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap }
+
+@media (max-width:420px){
+    .title{font-size:18px}
 }
